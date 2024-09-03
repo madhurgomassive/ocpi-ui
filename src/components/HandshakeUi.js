@@ -55,7 +55,7 @@ const HandshakeUI = () => {
 
   return (
     <div className="p-5">
-      <h1>Client {process.env.REACT_APP_OPERATOR}</h1>
+      <h1>Operator {process.env.REACT_APP_OPERATOR}</h1>
       {isSender == null ? (
         <div>
           <h2>Act as a</h2>
