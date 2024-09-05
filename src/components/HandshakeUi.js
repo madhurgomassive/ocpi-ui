@@ -26,6 +26,7 @@ const HandshakeUI = () => {
       await navigator.clipboard.writeText(tokenA);
       setCopySuccess("Copied!");
     } catch (err) {
+      console.log("Failed to copy", err);
       setCopySuccess("Failed to copy!");
     }
   };
