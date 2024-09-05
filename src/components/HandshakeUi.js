@@ -152,54 +152,57 @@ const HandshakeUI = () => {
             <p>{versionDetails?.tokenC}</p>
           </div>
           {dataFound &&
-           <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-           <h2>Operator Details</h2>
-{            console.log(versionDetails)
-}           {/* Operator Name */}
-           <div>
-             <strong>Operator Name:</strong> {versionDetails?.operatorDetails?.operatorName}
-           </div>
-         
-           {/* Version List */}
-           <div style={{ marginTop: '20px' }}>
-             <h3>Version List</h3>
-             <ul>
-               {versionDetails?.operatorDetails?.versionList?.map((version) => (
-                 <li key={version?._id}>
-                   <strong>Version:</strong> {version?.version} - 
-                   <a href={version?.url} target="_blank" rel="noopener noreferrer"> {version?.url}</a>
-                 </li>
-               ))}
-             </ul>
-           </div>
-         
-           {/* Version Details */}
-           <div style={{ marginTop: '20px' }}>
-             <h3>Version Details</h3>
-             {versionDetails?.operatorDetails?.versionDetails?.map((details, index) => (
-               <div key={index}>
-                 {details._id?.map((versionDetail, idx) => (
-                   <div key={idx}>
-                     <strong>Version:</strong> {versionDetail?.version}
-                     <ul>
-                       {versionDetail?.endpoints?.map((endpoint) => (
-                         <li key={endpoint?.url}>
-                           <strong>Identifier:</strong> {endpoint?.identifier} <br />
-                          
-                           <strong>URL:</strong> 
-                           <a href={endpoint?.url} target="_blank" rel="noopener noreferrer">
-                             {endpoint?.url}
-                           </a>
-                         </li>
-                       ))}
-                     </ul>
-                   </div>
-                 ))}
-               </div>
-             ))}
-           </div>
-         </div>
-         
+            <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+              <h2>Operator Details</h2>
+              {console.log(versionDetails)
+              }           {/* Operator Name */}
+              <div>
+                <strong>Operator Name:</strong> {versionDetails?.operatorDetails?.operatorName}
+              </div>
+
+              {/* Version List */}
+              <div style={{ marginTop: '20px' }}>
+                <h3>Version List</h3>
+                <ul>
+                  {versionDetails?.operatorDetails?.versionList?.map((version) => (
+                    <li key={version?._id}>
+                      <strong>Version:</strong> {version?.version} -
+                      <a href={version?.url} target="_blank" rel="noopener noreferrer"> {version?.url}</a>
+                    </li>
+                  ))}
+                  <div> timestapm :-{versionDetails?.operatorDetails?.versionListTimestamp} </div>
+                </ul>
+              </div>
+
+              {/* Version Details */}
+              <div style={{ marginTop: '20px' }}>
+                <h3>Version Details</h3>
+                {versionDetails?.operatorDetails?.versionDetails?.map((details, index) => (
+                  <div key={index}>
+                    {details._id?.map((versionDetail, idx) => (
+                      <div key={idx}>
+                        <strong>Version:</strong> {versionDetail?.version}
+                        <ul>
+                          {versionDetail?.endpoints?.map((endpoint) => (
+                            <li key={endpoint?.url}>
+                              <strong>Identifier:</strong> {endpoint?.identifier} <br />
+
+                              <strong>URL:</strong>
+                              <a href={endpoint?.url} target="_blank" rel="noopener noreferrer">
+                                {endpoint?.url}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <div> timestapm :-{versionDetails?.operatorDetails?.versionDetailsTimestamp} </div>
+
+              </div>
+            </div>
+
           }
         </div>
       ) : null}
