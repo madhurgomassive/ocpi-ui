@@ -31,8 +31,8 @@ const HandshakeUI = () => {
     }
   };
 
-  const [tokenB, setTokenB] = useState("");
-  const [tokenC, setTokenC] = useState("");
+  const [versionDetails, setVersionDetails] = useState()
+  const [dataFound, setDataFound] = useState(false)
   const [serverURL, setServerURL] = useState("");
   const [inputTokenA, setInputTokenA] = useState("");
 
@@ -43,8 +43,8 @@ const HandshakeUI = () => {
         { tokenA: inputTokenA, url: serverURL }
       );
 
-      setTokenB(response.data.tokenB);
-      setTokenC(response.data.tokenC);
+      setVersionDetails(response.data)
+      setDataFound(true)
     } catch (error) {
       console.error("Error fetching Token B:", error);
     }
@@ -144,13 +144,63 @@ const HandshakeUI = () => {
               </button>
             </div>
             <h2>Token B:</h2>
-            <p>{tokenB}</p>
+            <p>{versionDetails?.tokenB}</p>
           </div>
 
           <div>
             <h2>Token C:</h2>
-            <p>{tokenC}</p>
+            <p>{versionDetails?.tokenC}</p>
           </div>
+          {dataFound &&
+           <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+           <h2>Operator Details</h2>
+{            console.log(versionDetails)
+}           {/* Operator Name */}
+           <div>
+             <strong>Operator Name:</strong> {versionDetails?.operatorDetails?.operatorName}
+           </div>
+         
+           {/* Version List */}
+           <div style={{ marginTop: '20px' }}>
+             <h3>Version List</h3>
+             <ul>
+               {versionDetails?.operatorDetails?.versionList?.map((version) => (
+                 <li key={version?._id}>
+                   <strong>Version:</strong> {version?.version} - 
+                   <a href={version?.url} target="_blank" rel="noopener noreferrer"> {version?.url}</a>
+                 </li>
+               ))}
+             </ul>
+           </div>
+         
+           {/* Version Details */}
+           <div style={{ marginTop: '20px' }}>
+             <h3>Version Details</h3>
+             {versionDetails?.operatorDetails?.versionDetails?.map((details, index) => (
+               <div key={index}>
+                 {details._id?.map((versionDetail, idx) => (
+                   <div key={idx}>
+                     <strong>Version:</strong> {versionDetail?.version}
+                     <ul>
+                       {versionDetail?.endpoints?.map((endpoint) => (
+                         <li key={endpoint?.url}>
+                           <strong>Identifier:</strong> {endpoint?.identifier} <br />
+                          
+                           <strong>URL:</strong> 
+                           <a href={endpoint?.url} target="_blank" rel="noopener noreferrer">
+                             {endpoint?.url}
+                           </a>
+                         </li>
+                       ))}
+                     </ul>
+                   </div>
+                 ))}
+               </div>
+             ))}
+           </div>
+         </div>
+         
+          }
         </div>
       ) : null}
     </div>
