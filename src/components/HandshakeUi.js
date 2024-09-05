@@ -143,15 +143,8 @@ const HandshakeUI = () => {
                 Submit Token A
               </button>
             </div>
-            <h2>Token B:</h2>
-            <p>{versionDetails?.tokenB}</p>
-          </div>
 
-          <div>
-            <h2>Token C:</h2>
-            <p>{versionDetails?.tokenC}</p>
-          </div>
-          {dataFound &&
+            {dataFound &&
             <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
               <h2>Operator Details</h2>
               {console.log(versionDetails)
@@ -204,6 +197,17 @@ const HandshakeUI = () => {
             </div>
 
           }
+<div></div>
+
+            <h2>Token B:</h2>
+            <p>{versionDetails?.tokenB}</p>
+          </div>
+
+          <div>
+            <h2>Token C:</h2>
+            <p>{versionDetails?.tokenC}</p>
+          </div>
+       
         </div>
       ) : null}
     </div>
