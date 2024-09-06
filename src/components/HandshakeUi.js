@@ -50,8 +50,6 @@
 //     }
 //   };
 
-
-
 //   const handleRole = (state) => {
 //     setIsSender(state);
 //   };
@@ -205,9 +203,7 @@
 //             <p>{versionDetails?.tokenB?.tokenB}</p>    <span>{versionDetails?.tokenB?.timestamp}</span>
 //           </div>
 
-
 // {/* from here 3rd party operator details show */}
-
 
 //           {dataFound &&
 //               <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
@@ -264,8 +260,6 @@
 //             }
 //             <div></div>
 
-
-
 //           <div>
 //             <h2>Token C:</h2>
 //             <p>{versionDetails?.tokenC?.tokenC}</p> <span>{versionDetails?.tokenC?.timestamp}</span>
@@ -278,8 +272,6 @@
 // };
 
 // export default HandshakeUI;
-
-
 
 import React, { useState } from "react";
 import axios from "axios";
@@ -342,7 +334,10 @@ const HandshakeUI = () => {
 
   return (
     <div className="p-5">
-      <h1>Operator:-  &nbsp; {process.env.REACT_APP_API_URL}</h1>
+      <h1>
+        Operator:- {process.env.REACT_APP_OPERATOR} &nbsp;{" "}
+        {process.env.REACT_APP_API_URL}
+      </h1>
       {isSender == null ? (
         <div>
           <h2>Act as a</h2>
@@ -387,7 +382,7 @@ const HandshakeUI = () => {
       {isSender == true ? (
         <div>
           <div>
-            <h2>Exchange Token B</h2>
+            <h2>Exchange Token A</h2>
             <div style={{ width: "100%", padding: "0 20px" }}>
               <textarea
                 value={inputTokenA}
@@ -430,7 +425,6 @@ const HandshakeUI = () => {
                 Submit Token A
               </button>
             </div>
-
             {dataFound && (
               <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
                 <h2>Operator Details</h2>
@@ -465,8 +459,10 @@ const HandshakeUI = () => {
                   </ul>
                 </div>
                 <div>
-                  {console.log(versionDetails?.operatorDetails?.versionDetailsTimestamp)}
-                 Timestamp:{" "}
+                  {console.log(
+                    versionDetails?.operatorDetails?.versionDetailsTimestamp
+                  )}
+                  Timestamp:{" "}
                   {versionDetails?.operatorDetails?.versionDetailsTimestamp &&
                     formatTimestamp(
                       versionDetails?.operatorDetails?.versionDetailsTimestamp
@@ -505,8 +501,7 @@ const HandshakeUI = () => {
                   )}
                 </div>
                 <div>
-            
-                 Timestamp:{" "}
+                  Timestamp:{" "}
                   {versionDetails?.operatorDetails?.versionDetailsTimestamp &&
                     formatTimestamp(
                       versionDetails?.operatorDetails?.versionDetailsTimestamp
@@ -517,18 +512,21 @@ const HandshakeUI = () => {
             <h2>Token B:</h2>
             <p>{versionDetails?.tokenB?.tokenB}</p>{" "}
             <span>
-            Timestamp:{" "}  {versionDetails?.tokenB?.timestamp &&
+              Timestamp:{" "}
+              {versionDetails?.tokenB?.timestamp &&
                 formatTimestamp(versionDetails?.tokenB?.timestamp)}
             </span>
           </div>
-<hr/>
+          <hr />
           {/* Third-party operator details */}
           {dataFound && (
             <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-         
               <div>
                 <strong>Operator Name:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.data?.versionList?.operatorName}
+                {
+                  versionDetails?.thirdPartyOPerator?.data?.versionList
+                    ?.operatorName
+                }
               </div>
               {/* <div>
                 Timestamp:{" "}
@@ -540,8 +538,8 @@ const HandshakeUI = () => {
               <div style={{ marginTop: "20px" }}>
                 <h3>Version List</h3>
                 <ul>
-                  {versionDetails?.thirdPartyOPerator?.data?.versionList
-                    ?.versionList?.map((version) => (
+                  {versionDetails?.thirdPartyOPerator?.data?.versionList?.versionList?.map(
+                    (version) => (
                       <li key={version?._id}>
                         <strong>Version:</strong> {version?.version} -{" "}
                         <a
@@ -552,63 +550,65 @@ const HandshakeUI = () => {
                           {version?.url}
                         </a>
                       </li>
-                    ))}
+                    )
+                  )}
                 </ul>
               </div>
               <div>
                 Timestamp:{" "}
-                {versionDetails?.thirdPartyOPerator?.data.versionList.versionDetailsTimestamp &&
+                {versionDetails?.thirdPartyOPerator?.data.versionList
+                  .versionDetailsTimestamp &&
                   formatTimestamp(
-                    versionDetails?.thirdPartyOPerator?.data.versionList.versionDetailsTimestamp
+                    versionDetails?.thirdPartyOPerator?.data.versionList
+                      .versionDetailsTimestamp
                   )}
               </div>
 
               <div style={{ marginTop: "20px" }}>
-                  <h3>Version Details</h3>
-                  {versionDetails?.thirdPartyOPerator?.data.versionList?.versionDetails?.map(
-                    (details, index) => (
-                      <div key={index}>
-                        {details._id?.map((versionDetail, idx) => (
-                          <div key={idx}>
-                            <strong>Version:</strong> {versionDetail?.version}
-                            <ul>
-                              {versionDetail?.endpoints?.map((endpoint) => (
-                                <li key={endpoint?.url}>
-                                  <strong>Identifier:</strong>{" "}
-                                  {endpoint?.identifier} <br />
-                                  <strong>URL:</strong>
-                                  <a
-                                    href={endpoint?.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {endpoint?.url}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    )
+                <h3>Version Details</h3>
+                {versionDetails?.thirdPartyOPerator?.data.versionList?.versionDetails?.map(
+                  (details, index) => (
+                    <div key={index}>
+                      {details._id?.map((versionDetail, idx) => (
+                        <div key={idx}>
+                          <strong>Version:</strong> {versionDetail?.version}
+                          <ul>
+                            {versionDetail?.endpoints?.map((endpoint) => (
+                              <li key={endpoint?.url}>
+                                <strong>Identifier:</strong>{" "}
+                                {endpoint?.identifier} <br />
+                                <strong>URL:</strong>
+                                <a
+                                  href={endpoint?.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {endpoint?.url}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                )}
+              </div>
+              <div>
+                Timestamp:{" "}
+                {versionDetails?.operatorDetails?.versionDetailsTimestamp &&
+                  formatTimestamp(
+                    versionDetails?.operatorDetails?.versionDetailsTimestamp
                   )}
-                </div>
-                <div>
-            
-                 Timestamp:{" "}
-                  {versionDetails?.operatorDetails?.versionDetailsTimestamp &&
-                    formatTimestamp(
-                      versionDetails?.operatorDetails?.versionDetailsTimestamp
-                    )}
-                </div>
+              </div>
             </div>
           )}
-
           {/* Token C */}
           <h2>Token C:</h2>
           <p>{versionDetails?.tokenC?.tokenC}</p>{" "}
           <span>
-          Timestamp:{" "}   {versionDetails?.tokenC?.timestamp &&
+            Timestamp:{" "}
+            {versionDetails?.tokenC?.timestamp &&
               formatTimestamp(versionDetails?.tokenC?.timestamp)}
           </span>
         </div>
