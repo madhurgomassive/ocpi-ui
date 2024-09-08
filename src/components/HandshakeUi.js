@@ -45,6 +45,7 @@ const HandshakeUI = () => {
     textArea.select();
     try {
       document.execCommand("copy");
+      setCopySuccess("Copied!");
     } catch (err) {
       console.error("Unable to copy to clipboard", err);
       setCopySuccess("Failed to copy!");
