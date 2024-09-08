@@ -37,6 +37,21 @@ const HandshakeUI = () => {
     }
   };
 
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+      setCopySuccess("Failed to copy!");
+    }
+    document.body.removeChild(textArea);
+  };
+
   const handleCopyClick = async (text) => {
     console.log("text to copy", text);
 
@@ -45,8 +60,8 @@ const HandshakeUI = () => {
       setCopySuccess("Copied!");
     } catch (err) {
       console.log("handleCopyClick err", err);
-
-      setCopySuccess("Failed to copy!");
+      unsecuredCopyToClipboard(text);
+      // setCopySuccess("Failed to copy!");
     }
   };
 
