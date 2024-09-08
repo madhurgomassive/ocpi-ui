@@ -38,10 +38,14 @@ const HandshakeUI = () => {
   };
 
   const handleCopyClick = async (text) => {
+    console.log("text to copy", text);
+
     try {
       await navigator.clipboard.writeText(text);
       setCopySuccess("Copied!");
     } catch (err) {
+      console.log("handleCopyClick err", err);
+
       setCopySuccess("Failed to copy!");
     }
   };
