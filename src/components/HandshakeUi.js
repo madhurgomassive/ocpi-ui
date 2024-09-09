@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Spinner, Alert } from "react-bootstrap";
 
+const constants = {
+  token: "token",
+  url: "url",
+};
+
 const HandshakeUI = () => {
   const [tokenA, setTokenA] = useState("");
   const [tokenATime, setTokenATime] = useState("");
@@ -25,7 +30,7 @@ const HandshakeUI = () => {
     setError("");
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/2.1/credentials`
+        `${process.env.REACT_APP_API_URL}/2.1.1/credentials`
       );
       setTokenA(response.data.token);
       setUrlEndpoint(response.data.url);
@@ -54,16 +59,23 @@ const HandshakeUI = () => {
   };
 
   const handleCopyClick = async (text) => {
-    console.log("text to copy", text);
-
     try {
       await navigator.clipboard.writeText(text);
       setCopySuccess("Copied!");
     } catch (err) {
-      console.log("handleCopyClick err", err);
       unsecuredCopyToClipboard(text);
-      // setCopySuccess("Failed to copy!");
     }
+  };
+
+  const handlePasteClick = async (type) => {
+    navigator.clipboard
+      .readText()
+      .then((text) => {
+        type === constants.token ? setInputTokenA(text) : setServerURL(text);
+      })
+      .catch((err) => {
+        console.error("Failed to read clipboard contents: ", err);
+      });
   };
 
   const fetchTokenB = async () => {
@@ -71,7 +83,7 @@ const HandshakeUI = () => {
     setError("");
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/2.1/credentials/generate-b`,
+        `${process.env.REACT_APP_API_URL}/2.1.1/credentials/generate-b`,
         { tokenA: inputTokenA, url: serverURL }
       );
       setVersionDetails(response.data);
@@ -211,30 +223,46 @@ const HandshakeUI = () => {
         <div>
           <h3>Exchange Token A</h3>
           <div className="mb-3">
-            <label htmlFor="inputTokenA" className="form-label">
-              Enter Token A
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="inputTokenA"
-              value={inputTokenA}
-              onChange={(e) => setInputTokenA(e.target.value)}
-              placeholder="Enter Token A here"
-            />
+            <div className="mb-1">
+              <label htmlFor="inputTokenA" className="form-label">
+                Enter Token A
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="inputTokenA"
+                value={inputTokenA}
+                onChange={(e) => setInputTokenA(e.target.value)}
+                placeholder="Enter Token A here"
+              />
+            </div>
+            <button
+              className="btn btn-success"
+              onClick={() => handlePasteClick(constants.token)}
+            >
+              Paste Token
+            </button>
           </div>
           <div className="mb-3">
-            <label htmlFor="serverURL" className="form-label">
-              Server URL
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="serverURL"
-              value={serverURL}
-              onChange={(e) => setServerURL(e.target.value)}
-              placeholder="Enter URL given by the receiver"
-            />
+            <div className="mb-1">
+              <label htmlFor="serverURL" className="form-label">
+                Server URL
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="serverURL"
+                value={serverURL}
+                onChange={(e) => setServerURL(e.target.value)}
+                placeholder="Enter URL given by the receiver"
+              />
+            </div>
+            <button
+              className="btn btn-success"
+              onClick={() => handlePasteClick(constants.url)}
+            >
+              Paste URL
+            </button>
           </div>
 
           {!loading ? (
