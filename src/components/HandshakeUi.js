@@ -261,7 +261,7 @@ const HandshakeUI = () => {
               <div className="container mt-4">
                 <h1 className="mb-4">Fetch OCPI Operators</h1>
                 {filteredOperators?.length > 0 ? (
-                  filteredOperators?.map((operator, idx) => (
+                  filteredOperators.map((operator, idx) => (
                     <div key={idx} className="card mb-4">
                       <div className="card-body">
                         <h2 className="card-title">{operator.operatorName}</h2>
@@ -283,36 +283,43 @@ const HandshakeUI = () => {
                         </ul>
 
                         <h3 className="mt-4">Version Details:</h3>
-                        {operator.versionDetails?.map(
-                          (versionDetail, detailIdx) => (
-                            <div key={detailIdx} className="mt-3">
-                              <h4>Version {versionDetail._id[0]?.version}</h4>
-                              <ul className="list-group">
-                                {versionDetail._id[0]?.endpoints?.map(
-                                  (endpoint, endpointIdx) => (
-                                    <li
-                                      key={endpointIdx}
-                                      className="list-group-item"
-                                    >
-                                      <strong>Identifier:</strong>{" "}
-                                      {endpoint.identifier}
-                                      <br />
-                                      <strong>Role:</strong> {endpoint.role}
-                                      <br />
-                                      <strong>URL:</strong>{" "}
-                                      <a
-                                        href={endpoint.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                        {operator.versionDetails?.length > 0 ? (
+                          operator.versionDetails.map(
+                            (versionDetail, detailIdx) => (
+                              <div key={detailIdx} className="mt-3">
+                                {/* Changed: Updated to use versionDetail._id directly */}
+                                <h4>
+                                  Version Details (ID: {versionDetail._id})
+                                </h4>
+                                <ul className="list-group">
+                                  {versionDetail?.endpoints?.map(
+                                    (endpoint, endpointIdx) => (
+                                      <li
+                                        key={endpointIdx}
+                                        className="list-group-item"
                                       >
-                                        {endpoint.url}
-                                      </a>
-                                    </li>
-                                  )
-                                )}
-                              </ul>
-                            </div>
+                                        <strong>Identifier:</strong>{" "}
+                                        {endpoint.identifier}
+                                        <br />
+                                        <strong>Role:</strong> {endpoint.role}
+                                        <br />
+                                        <strong>URL:</strong>{" "}
+                                        <a
+                                          href={endpoint.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {endpoint.url}
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </div>
+                            )
                           )
+                        ) : (
+                          <p>No version details available.</p>
                         )}
                       </div>
                     </div>
