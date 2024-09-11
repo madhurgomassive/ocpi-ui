@@ -19,6 +19,7 @@ const HandshakeUI = () => {
   const [inputTokenA, setInputTokenA] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [filteredOperators, SetOperators] = useState()
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -106,6 +107,38 @@ const HandshakeUI = () => {
     setDataFound(false);
     setError("");
   };
+
+  const normalizeBaseUrl = (url) => {
+    // Extract the base URL (e.g., http://16.170.211.29/api) and normalize it
+    const match = url.match(/http:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/);
+    if (match) {
+      // Remove dots from the IP address for comparison
+      return match[1].replace(/\./g, '');
+    }
+    return '';
+  };
+
+  const handleOperators = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/ocpi/operators`);
+      const operators = response.data;
+
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const normalizedApiUrl = normalizeBaseUrl(apiUrl);
+      const filteredOperators = operators?.filter(operator => {
+        const normalizedOperatorName = normalizeBaseUrl(`http://${operator.operatorName}`);
+        return normalizedOperatorName !== normalizedApiUrl;
+      });
+      console.log(filteredOperators)
+      SetOperators(filteredOperators);
+
+    } catch (error) {
+      console.error("Error fetching operators:", error);
+    }
+  };
+
 
   const Loader = () => (
     <div className="mx-5 my-3">
@@ -216,6 +249,61 @@ const HandshakeUI = () => {
               </div>
             </div>
           )}
+          <hr></hr>
+          <div>
+            <button className="btn btn-success my-2" onClick={handleOperators}>Fetch Operators </button>
+
+
+            <div>
+              <div className="container mt-4">
+                <h1 className="mb-4">Fetch OCPI Operators</h1>
+                {filteredOperators?.length > 0 ? (
+                  filteredOperators.map((operator, idx) => (
+                    <div key={idx} className="card mb-4">
+                      <div className="card-body">
+                        <h2 className="card-title">{operator.operatorName}</h2>
+
+                        <h3 className="mt-3">Version List:</h3>
+                        <ul className="list-group">
+                          {operator.versionList.map((version, versionIdx) => (
+                            <li key={versionIdx} className="list-group-item">
+                              {version.version} - <a href={version.url} target="_blank" rel="noopener noreferrer">{version.url}</a>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <h3 className="mt-4">Version Details:</h3>
+                        {operator.versionDetails.map((versionDetail, detailIdx) => (
+                          <div key={detailIdx} className="mt-3">
+                            <h4>Version {versionDetail._id[0]?.version}</h4>
+                            <ul className="list-group">
+                              {versionDetail._id[0]?.endpoints.map((endpoint, endpointIdx) => (
+                                <li key={endpointIdx} className="list-group-item">
+                                  <strong>Identifier:</strong> {endpoint.identifier}<br />
+                                  <strong>Role:</strong> {endpoint.role}<br />
+                                  <strong>URL:</strong> <a href={endpoint.url} target="_blank" rel="noopener noreferrer">{endpoint.url}</a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No operators to display.</p>
+                )}
+              </div>
+            </div>
+
+
+
+          </div>
+
+
+
+
+
         </div>
       )}
 
@@ -443,6 +531,8 @@ const HandshakeUI = () => {
               </p>
             </div>
           )}
+
+
         </div>
       )}
     </div>
