@@ -148,6 +148,12 @@ const HandshakeUI = () => {
     </div>
   );
 
+  filteredOperators &&
+    console.log(
+      "operator.versionDetails ===",
+      filteredOperators[0]?.operator?.versionDetails
+    );
+
   return (
     <div className="container mt-5">
       {/* Operator Information */}
@@ -254,7 +260,7 @@ const HandshakeUI = () => {
           <hr></hr>
           <div>
             <button className="btn btn-success my-2" onClick={handleOperators}>
-              Fetch Operators{" "}
+              Fetch Operators
             </button>
 
             <div>
@@ -283,41 +289,34 @@ const HandshakeUI = () => {
                         </ul>
 
                         <h3 className="mt-4">Version Details:</h3>
-                        {operator.versionDetails?.length > 0 ? (
-                          operator.versionDetails.map(
-                            (versionDetail, detailIdx) => (
-                              <div key={detailIdx} className="mt-3">
-                                {/* Changed: Updated to use versionDetail._id directly */}
-                                <h4>
-                                  Version Details (ID: {versionDetail._id})
-                                </h4>
-                                <ul className="list-group">
-                                  {versionDetail?.endpoints?.map(
-                                    (endpoint, endpointIdx) => (
-                                      <li
-                                        key={endpointIdx}
-                                        className="list-group-item"
-                                      >
-                                        <strong>Identifier:</strong>{" "}
-                                        {endpoint.identifier}
-                                        <br />
-                                        <strong>Role:</strong> {endpoint.role}
-                                        <br />
-                                        <strong>URL:</strong>{" "}
-                                        <a
-                                          href={endpoint.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          {endpoint.url}
-                                        </a>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </div>
-                            )
-                          )
+                        {operator.versionDetails ? (
+                          <div className="mt-3">
+                            <h4>Version: {operator.versionDetails.version}</h4>
+                            <ul className="list-group">
+                              {operator.versionDetails.endpoints?.map(
+                                (endpoint, endpointIdx) => (
+                                  <li
+                                    key={endpointIdx}
+                                    className="list-group-item"
+                                  >
+                                    <strong>Identifier:</strong>{" "}
+                                    {endpoint.identifier}
+                                    <br />
+                                    <strong>Role:</strong> {endpoint.role}
+                                    <br />
+                                    <strong>URL:</strong>{" "}
+                                    <a
+                                      href={endpoint.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {endpoint.url}
+                                    </a>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
                         ) : (
                           <p>No version details available.</p>
                         )}
@@ -402,8 +401,8 @@ const HandshakeUI = () => {
               <h4>Version List</h4>
               <ul className="list-group">
                 {versionDetails?.operatorDetails?.versionList?.map(
-                  (version) => (
-                    <li key={version?._id} className="list-group-item">
+                  (version, index) => (
+                    <li key={index} className="list-group-item">
                       <strong>Version:</strong> {version?.version} -{" "}
                       <a
                         href={version?.url}
@@ -426,33 +425,24 @@ const HandshakeUI = () => {
               </div>
 
               <h4 className="mt-4">Version Details</h4>
-              {versionDetails?.operatorDetails?.versionDetails?.map(
-                (details, index) => (
-                  <div key={index}>
-                    {details._id?.map((versionDetail, idx) => (
-                      <div key={idx}>
-                        <strong>Version:</strong> {versionDetail?.version}
-                        <ul className="list-group mt-2">
-                          {versionDetail?.endpoints?.map((endpoint) => (
-                            <li key={endpoint?.url} className="list-group-item">
-                              <strong>Identifier:</strong>{" "}
-                              {endpoint?.identifier} <br />
-                              <strong>URL:</strong>{" "}
-                              <a
-                                href={endpoint?.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {endpoint?.url}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )
-              )}
+              <ul className="list-group">
+                {versionDetails?.operatorDetails?.versionDetails?.endpoints?.map(
+                  (endpoint, index) => (
+                    <li key={index} className="list-group-item">
+                      <strong>Identifier:</strong> {endpoint?.identifier} <br />
+                      <strong>Role:</strong> {endpoint?.role} <br />
+                      <strong>URL:</strong>{" "}
+                      <a
+                        href={endpoint?.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {endpoint?.url}
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
 
               <div className="mt-3">
                 <strong>Timestamp:</strong>{" "}
@@ -475,14 +465,14 @@ const HandshakeUI = () => {
               <h3>Own Operator Details</h3>
               <p>
                 <strong>Operator Name:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.operatorName}
+                {versionDetails?.ownPartyOPerator?.operatorName}
               </p>
 
               <h4>Version List</h4>
               <ul className="list-group">
-                {versionDetails?.thirdPartyOPerator?.versionList?.map(
-                  (version) => (
-                    <li key={version?._id} className="list-group-item">
+                {versionDetails?.ownPartyOPerator?.versionList?.map(
+                  (version, index) => (
+                    <li key={index} className="list-group-item">
                       <strong>Version:</strong> {version?.version} -{" "}
                       <a
                         href={version?.url}
@@ -498,46 +488,37 @@ const HandshakeUI = () => {
 
               <div className="mt-3">
                 <strong>Timestamp:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.versionDetailsTimestamp &&
+                {versionDetails?.ownPartyOPerator?.versionDetailsTimestamp &&
                   formatTimestamp(
-                    versionDetails?.thirdPartyOPerator?.versionDetailsTimestamp
+                    versionDetails?.ownPartyOPerator?.versionDetailsTimestamp
                   )}
               </div>
 
               <h4 className="mt-4">Version Details</h4>
-              {versionDetails?.thirdPartyOPerator?.versionDetails?.map(
-                (details, index) => (
-                  <div key={index}>
-                    {details._id?.map((versionDetail, idx) => (
-                      <div key={idx}>
-                        <strong>Version:</strong> {versionDetail?.version}
-                        <ul className="list-group mt-2">
-                          {versionDetail?.endpoints?.map((endpoint) => (
-                            <li key={endpoint?.url} className="list-group-item">
-                              <strong>Identifier:</strong>{" "}
-                              {endpoint?.identifier} <br />
-                              <strong>URL:</strong>{" "}
-                              <a
-                                href={endpoint?.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {endpoint?.url}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )
-              )}
+              <ul className="list-group">
+                {versionDetails?.ownPartyOPerator?.versionDetails?.endpoints?.map(
+                  (endpoint, index) => (
+                    <li key={index} className="list-group-item">
+                      <strong>Identifier:</strong> {endpoint?.identifier} <br />
+                      <strong>Role:</strong> {endpoint?.role} <br />
+                      <strong>URL:</strong>{" "}
+                      <a
+                        href={endpoint?.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {endpoint?.url}
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
 
               <div className="mt-3">
                 <strong>Timestamp:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.versionDetailsTimestamp &&
+                {versionDetails?.ownPartyOPerator?.versionDetailsTimestamp &&
                   formatTimestamp(
-                    versionDetails?.thirdPartyOPerator?.versionDetailsTimestamp
+                    versionDetails?.ownPartyOPerator?.versionDetailsTimestamp
                   )}
               </div>
 
