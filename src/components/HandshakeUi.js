@@ -468,15 +468,12 @@ const HandshakeUI = () => {
               <h3>Own Operator Details</h3>
               <p>
                 <strong>Operator Name:</strong>{" "}
-                {
-                  versionDetails?.thirdPartyOPerator?.data?.versionList
-                    ?.operatorName
-                }
+                {versionDetails?.thirdPartyOPerator?.versionList?.operatorName}
               </p>
 
               <h4>Version List</h4>
               <ul className="list-group">
-                {versionDetails?.thirdPartyOPerator?.data?.versionList?.versionList?.map(
+                {versionDetails?.thirdPartyOPerator?.versionList?.versionList?.map(
                   (version) => (
                     <li key={version?._id} className="list-group-item">
                       <strong>Version:</strong> {version?.version} -{" "}
@@ -494,16 +491,16 @@ const HandshakeUI = () => {
 
               <div className="mt-3">
                 <strong>Timestamp:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.data?.versionList
+                {versionDetails?.thirdPartyOPerator?.versionList
                   ?.versionDetailsTimestamp &&
                   formatTimestamp(
-                    versionDetails?.thirdPartyOPerator?.data?.versionList
+                    versionDetails?.thirdPartyOPerator?.versionList
                       ?.versionDetailsTimestamp
                   )}
               </div>
 
               <h4 className="mt-4">Version Details</h4>
-              {versionDetails?.thirdPartyOPerator?.data?.versionList?.versionDetails?.map(
+              {versionDetails?.thirdPartyOPerator?.versionList?.versionDetails?.map(
                 (details, index) => (
                   <div key={index}>
                     {details._id?.map((versionDetail, idx) => (
@@ -533,10 +530,10 @@ const HandshakeUI = () => {
 
               <div className="mt-3">
                 <strong>Timestamp:</strong>{" "}
-                {versionDetails?.thirdPartyOPerator?.data?.versionList
+                {versionDetails?.thirdPartyOPerator?.versionList
                   ?.versionDetailsTimestamp &&
                   formatTimestamp(
-                    versionDetails?.thirdPartyOPerator?.data?.versionList
+                    versionDetails?.thirdPartyOPerator?.versionList
                       ?.versionDetailsTimestamp
                   )}
               </div>
