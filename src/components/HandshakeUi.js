@@ -122,7 +122,7 @@ const HandshakeUI = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/ocpi/operators`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/operators`);
       const operators = response.data;
 
       const apiUrl = process.env.REACT_APP_API_URL;
