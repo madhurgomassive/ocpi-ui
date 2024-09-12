@@ -321,6 +321,11 @@ const HandshakeUI = () => {
                           <p>No version details available.</p>
                         )}
                       </div>
+                      <h3 className="mt-4">Token B:</h3>{operator?.tokenB}
+
+
+                      <h3 className="mt-4">Token C:</h3>{operator?.tokenC}
+
                     </div>
                   ))
                 ) : (
