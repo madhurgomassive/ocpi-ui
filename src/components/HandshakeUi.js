@@ -31,7 +31,7 @@ const HandshakeUI = () => {
     setError("");
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/2.1.1/credentials`
+        `${process.env.REACT_APP_API_URL}/2.1.1/credentials/get-token-a`
       );
       setTokenA(response.data.token);
       setUrlEndpoint(response.data.url);
@@ -321,11 +321,11 @@ const HandshakeUI = () => {
                           <p>No version details available.</p>
                         )}
                       </div>
-                      <h3 className="mt-4">Token B:</h3>{operator?.tokenB}
+                      <h3 className="mt-4">Token B:</h3>
+                      {operator?.tokenB}
 
-
-                      <h3 className="mt-4">Token C:</h3>{operator?.tokenC}
-
+                      <h3 className="mt-4">Token C:</h3>
+                      {operator?.tokenC}
                     </div>
                   ))
                 ) : (
